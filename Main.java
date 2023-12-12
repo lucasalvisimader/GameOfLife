@@ -13,6 +13,7 @@
 
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
@@ -23,8 +24,14 @@ public class Main {
         System.out.println("E a quantidade de colunas?");
         int columns = sc.nextInt();
         char[][] board = new char[lines][columns];
-        for (char[] chars : board) {
-            Arrays.fill(chars, '░');
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if ((int) (Math.random() * 2) == 0) {
+                    board[i][j] = '░';
+                } else {
+                    board[i][j] = '▓';
+                }
+            }
         }
         while(true) {
             System.out.println("Onde quer colocar um bloco de vida?");
@@ -44,7 +51,7 @@ public class Main {
     }
 
     public static String returnBoard(char[][] board) {
-        String finalText = "  ";
+        String finalText = "   ";
         for (int j = 0; j < board[0].length; j++) {
             finalText += j + " ";
         }
@@ -69,14 +76,26 @@ public class Main {
     }
 
     public static void startGame(char[][] board) {
+        System.out.println("Você quer que seja automática as geraões?\n1 - Sim\n2 - Não");
+        int choice = sc.nextInt();
         for (int i = 0; true; i++) {
-            System.out.println(i + "ª geração: ");
-            System.out.println(returnBoard(board));
-            System.out.println("Você quer continuar a geração?\n1 - Sim\n2 - Não");
-            if (sc.nextInt() == 1) {
+            if (choice == 2) {
+                System.out.println(i + "ª geração: ");
+                System.out.println(returnBoard(board));
+                System.out.println("Você quer continuar a geração?\n1 - Sim\n2 - Não");
+                if (sc.nextInt() == 1) {
+                    board = logicGeneration(board);
+                } else if (sc.nextInt() == 2) {
+                    System.exit(0);
+                }
+            } else {
                 board = logicGeneration(board);
-            } else if (sc.nextInt() == 2) {
-                System.exit(0);
+                System.out.println(returnBoard(board));
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
