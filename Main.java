@@ -26,14 +26,14 @@ public class Main {
         char[][] board = new char[lines][columns];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if ((int) (Math.random() * 2) == 0) {
+                if ((int) (Math.random() * 3) == 0) {
                     board[i][j] = '░';
                 } else {
                     board[i][j] = '▓';
                 }
             }
         }
-        while(true) {
+        for (int i = 0; true; i++) {
             System.out.println("Onde quer colocar um bloco de vida?");
             System.out.println(returnBoard(board));
 
@@ -45,6 +45,7 @@ public class Main {
 
             System.out.println("Quer colocar mais um?\n1 - Sim\n2 - Não");
             if (sc.nextInt() == 2) {
+                System.out.println(i + "ª geração");
                 startGame(board);
             }
         }
@@ -52,9 +53,6 @@ public class Main {
 
     public static String returnBoard(char[][] board) {
         String finalText = "   ";
-        for (int j = 0; j < board[0].length; j++) {
-            finalText += j + " ";
-        }
         finalText += "\n";
         for (int i = 0; i < board.length; i++) {
             finalText += i + " ";
@@ -76,7 +74,7 @@ public class Main {
     }
 
     public static void startGame(char[][] board) {
-        System.out.println("Você quer que seja automática as geraões?\n1 - Sim\n2 - Não");
+        System.out.println("Você quer que seja automática as gerações?\n1 - Sim\n2 - Não");
         int choice = sc.nextInt();
         for (int i = 0; true; i++) {
             if (choice == 2) {
@@ -92,7 +90,7 @@ public class Main {
                 board = logicGeneration(board);
                 System.out.println(returnBoard(board));
                 try {
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    TimeUnit.MILLISECONDS.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
